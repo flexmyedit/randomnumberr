@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css/import.css">
+    <title>Magic Number</title>
+</head>
+<body>
+    <div class="container">
+        <h1 id="title">INDOVINA IL NUMERO</h1>
+        <div class="center">
+            <ol>
+                <li>Il computer sceglierà segretamente un numero intero casuale tra 1 e<br>100.</li>
+                <li>Il tuo obiettivo è indovinare questo numero segreto nel minor numero<br>di tentativi possibile.</li>
+                <li>Ad ogni tentativo, inserisci un numero e il computer ti darà un indizio:</li>
+            </ol>
+
+            <ul>
+                <li>Se il tuo numero è troppo basso, ti dirà "Troppo basso,<br>prova un numero più alto!"</li>
+                <li>Se il tuo numero è troppo alto, ti dirà "Troppo alto, prova un numero più basso!"</li>
+                <li>Se indovini il numero esatto, vincerai la partita!</li>
+            </ul>
+
+            <ol>
+                <li>Continua a fare tentativi finché non indovini il numero magico.</li>
+                <li>Alla fine del gioco, ti verrà mostrato il numero di tentativi che hai<br>impiegato per indovinare.</li>
+                <li>Sfida te stesso a indovinare il numero con il minor numero di tentativi<br>possibile!</li>
+            </ol>
+        </div>
+        <div class="button">
+            <p id="question">Inserisci il numero magico</p>
+            <form action="">
+                <input type="number" name="number" id="userGuess" value="0">
+                <br>
+                <input type="button" name="bottone" id="userButton" value="INDOVINA">
+            </form> 
+        </div>
+        <div class="underButton">
+            <p id="firstText">...</p>
+            <p id="secondText">Hai ancora<span id="try"> 5 </span>tentativi</p> 
+        </div>
+    </div>
+    <script>
+
+        function random(min, max){
+            let randomNumber = Math.random()*(max - min) + min
+            randomNumber = parseInt(randomNumber)
+            console.log(randomNumber)
+            return randomNumber
+        }
+
+        let tentativo = 0
+        let numeroTentativi = 5
+        let numero
+        let min = 1
+        let max = 100
+        let rnd = random(min, max)
+        let indovinato = false
+
+        let bottone = document.querySelector("#userButton")
+        let firstText = document.querySelector("#firstText")
+        let secondText = document.querySelector("#secondText")
+
+        bottone.addEventListener("click", function(event){
+        if(tentativo >= numeroTentativi){
+            firstText.innerHTML = "Tentativi esauriti, il numero corretto era " + rnd
+            return
+        }
+
+        numero = parseInt(document.querySelector("#userGuess").value)
+        tentativo += 1
+
+        if(numero < min || numero > max || isNaN(numero)){
+            secondText.innerHTML = "Errore d'inserimento!"
+        }else if(numero === rnd){
+            firstText.innerHTML = "Hai indovinato! in " + tentativo + " tentativi"
+            secondText.innerHTML = ""
+            indovinato = true
+        }else if(numero < rnd){
+            firstText.innerHTML = "Numero troppo piccolo, riprova"
+        }else{
+            firstText.innerHTML = "Numero troppo grande, riprova"
+        }
+
+        secondText.innerHTML = "Hai ancora " + (numeroTentativi - tentativo) + " tentativi"
+        })
+    </script>
+</body>
+</html>
